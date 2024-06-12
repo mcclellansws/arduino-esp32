@@ -207,5 +207,19 @@ uint64_t SDMMCFS::usedBytes()
 	return size;
 }
 
+int SDMMCFS::sectorSize() {
+  if (!_card) {
+    return 0;
+  }
+  return _card->csd.sector_size;
+}
+
+int SDMMCFS::numSectors() {
+  if (!_card) {
+    return 0;
+  }
+  return (totalBytes() / _card->csd.sector_size);
+}
+
 SDMMCFS SD_MMC = SDMMCFS(FSImplPtr(new VFSImpl()));
 #endif /* SOC_SDMMC_HOST_SUPPORTED */

@@ -16,7 +16,11 @@
 
 #include "sdkconfig.h"
 #include "soc/soc_caps.h"
-#ifdef SOC_SDMMC_HOST_SUPPORTED
+#ifndef SOC_SDMMC_HOST_SUPPORTED
+#ifdef ARDUINO
+#warning The SDMMC library requires a device with an SDIO Host
+#endif
+#else
 
 #include "FS.h"
 #include "driver/sdmmc_types.h"
@@ -56,6 +60,10 @@ public:
     uint64_t cardSize();
     uint64_t totalBytes();
     uint64_t usedBytes();
+    int sectorSize();
+    int numSectors();
+    bool readRAW(uint8_t *buffer, uint32_t sector);
+    bool writeRAW(uint8_t *buffer, uint32_t sector);
 };
 
 }
